@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <h1>Hi There!!!</h1>
+      <p>Welcome to The Gallery</p>
+      {% if logged_in %}
+        <p>You can <a href="{{ url_for('upload') }}">upload images</a> or head over to the <a href="{{ url_for('gallery') }}">gallery</a></p>
+        <p><a href="{{ url_for('logout') }}">Logout</a></p>
+      {% else %}
+        <p><a href="#" class="login">Login</a> to upload images or head over to the <a href="{{ url_for('gallery') }}">gallery</a></p>
+      {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://cdn.auth0.com/js/lock/10.5/lock.min.js"></script>
+<script>
+  var AUTH0_CLIENT_ID = '{{env.AUTH0_CLIENT_ID}}';
+  var AUTH0_DOMAIN = '{{env.AUTH0_DOMAIN}}';
+  var AUTH0_CALLBACK_URL = '{{env.AUTH0_CALLBACK_URL if env.AUTH0_CALLBACK_URL else "http://localhost:3000/callback" }}';
+</script>
+<script src="{{url_for('static_files', filename='auth.js')}}"> </script>
+{% endblock %}
